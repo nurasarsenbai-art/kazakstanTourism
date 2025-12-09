@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта — Қазақстан туризмі</title>
+
+    <!-- Leaflet кітапханасы -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #c7e6d0; 
+        }
+
+        nav {
+            background: #00996f;
+            text-align: center;
+            padding: 15px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d2ffd6;
+        }
+        nav a.active {
+            color: #c7ffe1;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #125c3b;
+            text-align: center;
+        }
+
+        .map-wrapper {
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #2da56f;
+            height: 500px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Popup стилі */
+        .leaflet-popup-content-wrapper {
+            background: #e6ffe9;
+            border: 2px solid #1b8f5a;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+ <nav>
+  <a href="index.html">Басты бет</a>
+  <a href="reerf.html">Галерея</a>
+  <a href="tours.html">Турлар</a>
+  <a href="gallery.html" class="active">Бронь</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="map.html">Карта</a>
+  </nav>
+
+<div class="container">
+    <h2>Қазақстанның көрікті жерлері картасы</h2>
+    <p style="text-align:center; font-size:17px;">
+        Карта арқылы еліміздің ең әдемі табиғат аймақтарын зерттеңіз 🗺️
+    </p>
+
+    <div class="map-wrapper">
+        <div id="map"></div>
+    </div>
+</div>
+
+
+<script>
+    // Картаны бастау (Қазақстан ортасы)
+    var map = L.map('map').setView([47.5, 67.5], 5);
+
+    // Карта қабаты
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(map);
+
+    // Маркерлерді қосу
+    const places = [
+        { name: "Бурабай", coords: [53.083, 70.319], desc: "Табиғаты әсем демалыс орны." },
+        { name: "Шарын шатқалы", coords: [43.355, 79.070], desc: "Әлемдегі ең әдемі шатқалдардың бірі." },
+        { name: "Көлсай көлдері", coords: [42.978, 78.324], desc: "3 таулы көл жүйесі." },
+        { name: "Қайыңды көлі", coords: [43.052, 78.339], desc: "Суға батқан ағаштарымен әйгілі көл." },
+        { name: "Бозжыра шатқалы", coords: [43.395, 54.103], desc: "Маңғыстаудағы ғажайып табиғи аймақ." },
+        { name: "Түркістан", coords: [43.297, 68.269], desc: "Қ.А. Ясауи кесенесі орналасқан тарихи қала." },
+        { name: "Алтынемел ұлттық паркі", coords: [44.579, 79.175], desc: "Әнші құм және Ақтау-Қатутау." }
+    ];
+
+    places.forEach(p => {
+        L.marker(p.coords).addTo(map)
+            .bindPopup(`<b>${p.name}</b><br>${p.desc}`);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Қазақстан туризмі</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #b3ffd9, #e6fff5);
+  color: #00331f;
+}
+nav {
+  background: #00996f;
+  text-align: center;
+  padding: 15px 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #d2ffd6;
+  
+}
+header {
+  text-align: center;
+  padding: 100px 40px;
+  background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1600');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-shadow: 2px 2px 5px black;
+  border-bottom: 5px solid #006644;
+}
+header h1 {
+  font-size: 50px;
+  margin: 0;
+}
+header p {
+  font-size: 20px;
+}
+main {
+  background: white;
+  margin: 40px auto;
+  padding: 30px;
+  max-width: 900px;
+  border: 5px double #00b377;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+main h2 {
+  color: #006644;
+}
+main p {
+  font-size: 18px;
+}
+
+
+button {
+  background-color: #009966;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 25px;
+  transition: 0.3s;
+}
+button:hover {
+  background-color: #00b377;
+}
+
+
+video {
+  display: none;
+  margin-top: 25px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+footer {
+  text-align: center;
+  background: #00b377;
+  color: white;
+  padding: 15px;
+  margin-top: 40px;
+  border-top: 4px solid #006644;
+}
+</style>
+</head>
+
+<body>
+<nav>
+ 
+  <a href="index.html">Басты бет</a>
+  <a href="reerf.html">Галерея</a>
+  <a href="tours.html">Турлар</a>
+  <a href="gallery.html" class="active">Бронь</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="map.html">Карта</a>
+  <a href="logim.html" style="float:right; color:darkblue     ;">Шығу</a>
+</nav>
+
+
+<header>
+  <h1>ҚАЗАҚСТАН ТУРИЗМІ</h1>
+  <p>Туған елдің табиғатын таны!</p>
+</header>
+
+<main>
+  <h2>Қош келдіңіз!</h2>
+  <p>Қазақстан — табиғаты бай, кең байтақ ел.  
+  Мұнда биік таулар, әдемі көлдер, жасыл ормандар және тарихи орындар бар.  
+  Бұл сайт арқылы Қазақстанның әсем жерлерімен танысып, саяхат бағыттарын көре аласыз.</p>
+
+  <button onclick="showVideo()">Welcome To Kazakhstan</button>
+
+
+  <video id="kazVideo" controls>
+    <source src="IMG_7236.MP4" type="video/mp4">
+    Сіздің браузеріңіз видеоны қолдамайды.
+  </video>
+</main>
+
+<footer>
+  © 2025 Қазақстан туризмі. Барлық құқықтар қорғалған.
+</footer>
+
+
+<script>
+function showVideo() {
+  const video = document.getElementById('kazVideo');
+  video.style.display = 'block';
+  video.scrollIntoView({ behavior: 'smooth' }); 
+}
+</script>
+
+</body>
+</html>

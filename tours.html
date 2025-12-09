@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Турлар — Қазақстан туризмі</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #b3ffd9, #e6fff5);
+  color: #00331f;
+}
+nav {
+  background: #00996f;
+  text-align: center;
+  padding: 15px 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #d2ffd6;
+}
+main {
+  max-width: 900px;
+  margin: 30px auto;
+  background: white;
+  border: 5px double #00b377;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: center;
+}
+h2 {
+  color: #00b377;
+}
+.subtitle {
+  font-size: 18px;
+  color: #006644;
+  margin-bottom: 25px;
+}
+.tour {
+  display: flex;
+  align-items: center;
+  border: 3px solid #00b377;
+  border-radius: 10px;
+  margin: 20px 0;
+  overflow: hidden;
+  background-color: #f9fff9;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.tour:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+.tour img {
+  width: 45%;
+  height: auto;
+  object-fit: cover;
+  border-right: 3px solid #00b377;
+}
+.tour-info {
+  padding: 15px;
+  width: 55%;
+  text-align: left;
+}
+.tour-info h3 {
+  color: #006644;
+  margin-top: 0;
+}
+button {
+  background: #00b377;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background: #006644;
+}
+footer {
+  text-align: center;
+  background: #00b377;
+  color: white;
+  padding: 15px;
+  border-top: 4px solid #006644;
+  margin-top: 40px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .tour {
+    flex-direction: column;
+  }
+  .tour img {
+    width: 100%;
+    border-right: none;
+    border-bottom: 3px solid #00b377;
+  }
+  .tour-info {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+ <nav>
+  <a href="index.html">Басты бет</a>
+  <a href="reerf.html">Галерея</a>
+  <a href="tours.html">Турлар</a>
+  <a href="gallery.html" class="active">Бронь</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="map.html">Карта</a>
+  </nav>
+
+
+<div style="text-align:center; margin-top:20px;">
+  <input type="text" id="searchInput" placeholder="Тур атауын іздеу..." 
+  style="padding:10px; width:70%; max-width:400px; border:2px solid #00b377; border-radius:8px;">
+</div>
+
+<main>
+  <h2>Турлар туралы ақпарат</h2>
+  <p class="subtitle">Бұл жерде сіз ғажап табиғат орындарын көре аласыз 🌿</p>
+
+  <div class="tour">
+    <img src="photo-1501785888041-af3ef285b470.jpg" alt="Алматы таулары">
+    <div class="tour-info">
+      <h3>Алматы тауларына саяхат</h3>
+      <p>3 күндік тур: Көлсай, Қайыңды, Медеу және Көк-Төбе.</p>
+      <a href="tau.html"><button>Толығырақ</button></a>
+    </div>
+  </div>
+
+  <div class="tour">
+    <img src="https://massaget.kz/userdata/blogs/blogs_28487/image_l.jpg" alt="Шарын шатқалы">
+    <div class="tour-info">
+      <h3>Шарын шатқалына экскурсия</h3>
+      <p>1 күндік саяхат. Табиғат көріністерін тамашалау мен фотоға түсуге мүмкіндік.</p>
+      <a href="sharyn.html"><button>Толығырақ</button></a>
+    </div>
+  </div>
+
+  <div class="tour">
+    <img src="243320cc69572d12e12e70c0d17d026e.jpg" alt="Маңғыстау табиғаты">
+    <div class="tour-info">
+      <h3>Маңғыстаудың табиғатына саяхат</h3>
+      <p>4 күндік тур: Бозжыра шатқалы, Шерқала, Каспий теңізі жағалауы.</p>
+      <a href="mangystau.html"><button>Толығырақ</button></a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2025 Қазақстан туризмі</p>
+</footer>
+
+<script>
+document.getElementById('searchInput').addEventListener('keyup', function () {
+  let query = this.value.toLowerCase();
+  let tours = document.querySelectorAll('.tour');
+
+  tours.forEach(tour => {
+    let title = tour.querySelector('h3').innerText.toLowerCase();
+    if (title.includes(query)) {
+      tour.style.display = "flex";
+    } else {
+      tour.style.display = "none";
+    }
+  });
+});
+</script>
+
+</body>
+</html>

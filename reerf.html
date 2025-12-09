@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Галерея — Қазақстан туризмі</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", Arial, sans-serif;
+  background: linear-gradient(180deg, #cceee0 0%, #e9fff5 100%);
+}
+
+header {
+  background-color: #009966;
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+nav {
+  background: #00996f;
+  text-align: center;
+  padding: 15px 0;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #d2ffd6;
+}
+
+main {
+  flex: 1;
+}
+
+h1 {
+  text-align: center;
+  color: #006644;
+  margin-top: 30px;
+  text-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+  padding: 20px;
+  perspective: 1000px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 15px;
+  width: 280px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+
+.card:hover {
+  transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  border-radius: 15px 15px 0 0;
+  object-fit: cover;
+}
+
+.card p {
+  padding: 15px;
+  font-weight: bold;
+  color: #004d33;
+}
+
+.description {
+  text-align: center;
+  font-size: 18px;
+  color: #004d33;
+  margin: 20px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal {
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal video {
+  width: 100%;
+  height: 450px;
+  border-radius: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #cc0000;
+}
+
+footer {
+  margin-top: auto;
+  background-color: #009966;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 15px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+  <a href="index.html">Басты бет</a>
+  <a href="reerf.html">Галерея</a>
+  <a href="tours.html">Турлар</a>
+  <a href="gallery.html" class="active">Бронь</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="map.html">Карта</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Қазақстанның көрікті жерлері</h1>
+
+  <div class="gallery">
+    <div class="card" data-video="c:\Users\Win11\Downloads\IMG_7460.MP4">
+      <img src="photo-1501785888041-af3ef285b470.jpg" alt="Алматының таулары">
+      <p>Алматының таулары</p>
+    </div>
+
+    <div class="card" data-video="c:\Users\Win11\Downloads\IMG_7461.MP4">
+      <img src="https://massaget.kz/userdata/blogs/blogs_28487/image_l.jpg" alt="Шарын шатқалы">
+      <p>Шарын шатқалы</p>
+    </div>
+
+    <div class="card" data-video="c:\Users\Win11\Downloads\IMG_7462.MP4">
+      <img src="243320cc69572d12e12e70c0d17d026e.jpg" alt="Маңғыстаудың табиғаты">
+      <p>Маңғыстаудың табиғаты</p>
+    </div>
+  </div>
+
+  <p class="description">Бұл жерде сіз ғажап табиғат орындарын көре аласыз.</p>
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <button class="close-btn" id="closeBtn">Жабу</button>
+    <div id="videoContainer"></div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Қазақстан туризмі
+</footer>
+
+<script>
+const cards = document.querySelectorAll('.card');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const videoContainer = document.getElementById('videoContainer');
+const closeBtn = document.getElementById('closeBtn');
+
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    const videoSrc = card.getAttribute('data-video');
+    videoContainer.innerHTML = '';
+
+    const video = document.createElement('video');
+    video.src = videoSrc;
+    video.controls = true;
+    video.autoplay = true;
+    videoContainer.appendChild(video);
+
+    modalBackdrop.style.display = 'flex';
+  });
+});
+
+closeBtn.addEventListener('click', () => {
+  modalBackdrop.style.display = 'none';
+  videoContainer.innerHTML = '';
+});
+
+modalBackdrop.addEventListener('click', (e) => {
+  if (e.target === modalBackdrop) {
+    modalBackdrop.style.display = 'none';
+    videoContainer.innerHTML = '';
+  }
+});
+</script>
+
+</body>
+</html>

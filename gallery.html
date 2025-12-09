@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Аккаунт — Қазақстан туризмі</title>
+
+  <style>
+    :root{
+      --green:#1b8f5a;
+      --green-2:#00996f;
+      --bg:#c7e6d0;
+      --card:#ffffff;
+      --muted:#6b7a6f;
+      --accent:#2da56f;
+      --danger:#d9534f;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:#123;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Nav (сананың стиліне үйлесімді) */
+    nav{
+      background:var(--green-2);
+      text-align:center;
+      padding:12px 8px;
+    }
+    nav a{
+      color:white;
+      text-decoration:none;
+      margin:0 14px;
+      font-weight:700;
+    }
+    nav a.active{color:var(--card); text-decoration:underline}
+
+    .wrap{
+      max-width:1100px;
+      margin:28px auto;
+      padding:20px;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 8px 22px rgba(0,0,0,.08);
+    }
+
+    header.h{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    header.h h1{
+      margin:0;
+      font-size:20px;
+      color:var(--green);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:20px;
+    }
+
+    /* Sidebar (profile + actions) */
+    .card{
+      background:linear-gradient(180deg,#f7fff7,#ffffff);
+      border:3px solid var(--accent);
+      border-radius:12px;
+      padding:16px;
+    }
+    .profile{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .avatar{
+      width:64px;height:64px;border-radius:12px;
+      background:linear-gradient(135deg,var(--green),#3fb07a);
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;
+    }
+    .pname{font-weight:700;color:#0b3b26}
+    .pmail{color:var(--muted);font-size:13px}
+
+    .btn{
+      display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:700;
+      cursor:pointer;border:none;
+    }
+    .btn-primary{background:var(--green);color:white}
+    .btn-ghost{background:transparent;border:2px solid var(--green-2);color:var(--green-2)}
+    .btn-danger{background:var(--danger);color:white}
+
+    .small{font-size:13px;color:var(--muted);margin-top:8px}
+
+    /* Main content */
+    .panel { padding:16px;border-radius:8px; background:linear-gradient(180deg,#fcfff8,#ffffff); border:1px solid #e9f6ee; }
+
+    .section-title{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;}
+    .section-title h3{ margin:0; color:var(--green); font-size:16px; }
+
+    /* Booking form */
+    label{display:block;margin:8px 0 6px;font-size:13px;color:var(--muted)}
+    input[type="text"], input[type="email"], input[type="date"], select {
+      width:100%; padding:10px;border-radius:8px;border:1px solid #dceee0;background:#fbfffb;
+    }
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    /* Bookings list */
+    .booking {
+      display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;border:1px solid #eef7ee;margin-bottom:10px;
+      background:linear-gradient(180deg,#ffffff,#fbfff9);
+    }
+    .booking .meta{flex:1}
+    .booking h4{margin:0;color:#0b3b26}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Empty state */
+    .empty{ text-align:center;color:var(--muted); padding:30px 0; }
+
+    /* Responsive */
+    @media (max-width:960px){
+      .grid{grid-template-columns:1fr; }
+      .avatar{width:56px;height:56px}
+    }
+  </style>
+</head>
+<body>
+
+
+ <nav>
+  <a href="index.html">Басты бет</a>
+  <a href="reerf.html">Галерея</a>
+  <a href="tours.html">Турлар</a>
+  <a href="gallery.html" class="active">Бронь</a>
+  <a href="about.html">Біз туралы</a>
+  <a href="map.html">Карта</a>
+  </nav>
+
+<div class="wrap">
+  <div class="h">
+    <h1>Менің аккаунтым</h1>
+    <div>
+      <button id="btn-logout" class="btn btn-ghost" style="display:none">Шығу</button>
+      <button id="btn-open-auth" class="btn btn-primary">Кіру / Тіркелу</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- SIDEBAR -->
+    <div class="card">
+      <div class="profile">
+        <div class="avatar" id="avatar">Ә</div>
+        <div>
+          <div class="pname" id="user-name">Қонақ</div>
+          <div class="pmail" id="user-email">Тіркелмеген</div>
+        </div>
+      </div>
+
+      <p class="small">Профильіңді толтырыңыз — брондау жасау және тарихты көру үшін кіру қажет.</p>
+
+      <hr style="margin:14px 0;border:none;border-top:1px dashed #e6f3e6">
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button id="btn-edit-profile" class="btn btn-ghost" disabled>Профильді өңдеу</button>
+        <button id="btn-manage-bookings" class="btn btn-ghost" disabled>Брондауларды басқару</button>
+        <button id="btn-clear" class="btn" style="background:#f6f6f6;border:1px solid #eee;color:#333">Жүйені тазарту</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div>
+      <!-- BOOKING FORM -->
+      <div class="panel" id="panel-book">
+        <div class="section-title">
+          <h3>Жаңа брондау жасау</h3>
+          <div class="muted">Тегін демонстрациялық режим — нақты төлем жасалмайды</div>
+        </div>
+
+        <div id="auth-warning" class="empty" style="display:block">
+          <p><strong>Ескерту:</strong> Брондау жасау үшін алдымен кіруіңіз керек.</p>
+        </div>
+
+        <div id="booking-form" style="display:none">
+          <label>Қонақүйді таңдаңыз</label>
+          <select id="hotel-select">
+            <option value="Rixos Borovoe">Rixos Borovoe — Бурабай</option>
+            <option value="Kolsai Lake House">Kolsai Lake House — Көлсай</option>
+            <option value="Rixos World Aktau">Rixos World Aktau — Ақтау</option>
+          </select>
+
+          <div class="two-col" style="margin-top:8px">
+            <div>
+              <label>Келу күні</label>
+              <input type="date" id="date-from" />
+            </div>
+            <div>
+              <label>Шығу күні</label>
+              <input type="date" id="date-to" />
+            </div>
+          </div>
+
+          <label style="margin-top:8px">Қонақтар саны</label>
+          <input type="text" id="guests" placeholder="Мысалы: 2" />
+
+          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+            <button id="btn-book" class="btn btn-primary">Брондау</button>
+            <button id="btn-reset" class="btn" style="background:#f6f6f6;border:1px solid #eee">Тазарту</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKINGS LIST -->
+      <div class="panel" style="margin-top:16px">
+        <div class="section-title">
+          <h3>Сенің брондауларың</h3>
+          <div class="muted" id="booking-count">—</div>
+        </div>
+
+        <div id="bookings-list" class="bookings-area">
+          <div class="empty">Брондауларың әлі жоқ.</div>
+        </div>
+      </div>
+
+      <!-- PROFILE EDIT -->
+      <div class="panel" id="panel-profile" style="margin-top:16px;display:none">
+        <div class="section-title">
+          <h3>Профильді өңдеу</h3>
+          <div class="muted">Аты-жөнің және email өзгертуге болады.</div>
+        </div>
+
+        <label>Аты-жөнің</label>
+        <input type="text" id="edit-name" placeholder="Толық атыңыз" />
+
+        <label style="margin-top:8px">Email</label>
+        <input type="email" id="edit-email" placeholder="example@mail.kz" />
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="btn-save-profile" class="btn btn-primary">Сақтау</button>
+          <button id="btn-cancel-edit" class="btn" style="background:#f6f6f6;border:1px solid #eee">Болдырмау</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL (SIMPLE) -->
+<div id="auth-modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45);">
+  <div style="width:360px;background:white;padding:18px;border-radius:12px;box-shadow:0 18px 40px rgba(0,0,0,.4)">
+    <h3 style="margin:0 0 10px;color:var(--green)">Кіру немесе тіркелу</h3>
+
+    <div id="auth-tabs" style="display:flex;gap:8px;margin-bottom:12px">
+      <button id="tab-login" class="btn btn-ghost" style="flex:1">Кіру</button>
+      <button id="tab-register" class="btn" style="flex:1;background:#f6f6f6;border:1px solid #eee">Тіркелу</button>
+    </div>
+
+    <div id="login-form">
+      <label>Email</label>
+      <input type="email" id="login-email" />
+      <label style="margin-top:8px">Пароль</label>
+      <input type="password" id="login-pass" />
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="btn-login" class="btn btn-primary">Кіру</button>
+        <button id="btn-close-auth" class="btn" style="background:#f6f6f6;border:1px solid #eee">Жабу</button>
+      </div>
+    </div>
+
+    <div id="register-form" style="display:none">
+      <label>Аты-жөнің</label>
+      <input type="text" id="reg-name" />
+      <label style="margin-top:8px">Email</label>
+      <input type="email" id="reg-email" />
+      <label style="margin-top:8px">Пароль</label>
+      <input type="password" id="reg-pass" />
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="btn-register" class="btn btn-primary">Тіркелу</button>
+        <button id="btn-close-auth-2" class="btn" style="background:#f6f6f6;border:1px solid #eee">Жабу</button>
+      </div>
+    </div>
+
+    <p style="margin-top:10px;font-size:13px;color:var(--muted)">Ескерту: бұл демо — парольдер жергілікті браузерде сақталады (құпия емес). Өндірістік сайтта сервер және қауіпсіз авторизация қажет.</p>
+  </div>
+</div>
+
+<script>
+  // --- Utility: localStorage helpers ---
+  const LS_USERS = 'tour_users_v1';
+  const LS_CURRENT = 'tour_current_user_v1';
+  const LS_BOOKINGS = 'tour_bookings_v1';
+
+  function readJSON(key){ try{ return JSON.parse(localStorage.getItem(key))||null }catch(e){return null} }
+  function writeJSON(key,val){ localStorage.setItem(key, JSON.stringify(val)) }
+
+  // --- Initial data setup ---
+  if(!readJSON(LS_USERS)) {
+    writeJSON(LS_USERS, []); // users array: {name,email,pass}
+  }
+  if(!readJSON(LS_BOOKINGS)){
+    writeJSON(LS_BOOKINGS, []);
+  }
+
+  // --- Elements ---
+  const btnOpenAuth = document.getElementById('btn-open-auth');
+  const authModal = document.getElementById('auth-modal');
+  const tabLogin = document.getElementById('tab-login');
+  const tabReg = document.getElementById('tab-register');
+  const loginForm = document.getElementById('login-form');
+  const regForm = document.getElementById('register-form');
+  const btnCloseAuth = document.getElementById('btn-close-auth');
+  const btnCloseAuth2 = document.getElementById('btn-close-auth-2');
+
+  const btnRegister = document.getElementById('btn-register');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout = document.getElementById('btn-logout');
+
+  const userNameEl = document.getElementById('user-name');
+  const userEmailEl = document.getElementById('user-email');
+  const avatarEl = document.getElementById('avatar');
+
+  const authWarning = document.getElementById('auth-warning');
+  const bookingFormEl = document.getElementById('booking-form');
+  const btnBook = document.getElementById('btn-book');
+  const btnReset = document.getElementById('btn-reset');
+  const bookingsList = document.getElementById('bookings-list');
+  const bookingCount = document.getElementById('booking-count');
+
+  const btnEditProfile = document.getElementById('btn-edit-profile');
+  const panelProfile = document.getElementById('panel-profile');
+  const btnManageBookings = document.getElementById('btn-manage-bookings');
+  const btnSaveProfile = document.getElementById('btn-save-profile');
+  const btnCancelEdit = document.getElementById('btn-cancel-edit');
+
+  const btnClear = document.getElementById('btn-clear');
+
+  // --- Auth modal tabs ---
+  tabLogin.addEventListener('click', ()=>{
+    loginForm.style.display = 'block';
+    regForm.style.display = 'none';
+    tabLogin.classList.add('btn-ghost');
+    tabReg.classList.remove('btn-ghost');
+  });
+  tabReg.addEventListener('click', ()=>{
+    loginForm.style.display = 'none';
+    regForm.style.display = 'block';
+    tabReg.classList.add('btn-ghost');
+    tabLogin.classList.remove('btn-ghost');
+  });
+
+  // Open auth modal
+  btnOpenAuth.addEventListener('click', ()=> {
+    authModal.style.display = 'flex';
+  });
+  btnCloseAuth.addEventListener('click', ()=> authModal.style.display='none');
+  btnCloseAuth2.addEventListener('click', ()=> authModal.style.display='none');
+
+  // --- Register ---
+  btnRegister.addEventListener('click', ()=>{
+    const name = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim().toLowerCase();
+    const pass = document.getElementById('reg-pass').value;
+
+    if(!name || !email || !pass){ alert('Барлық өрістерді толтырыңыз'); return; }
+
+    const users = readJSON(LS_USERS) || [];
+    if(users.find(u=>u.email===email)){ alert('Осындай email тіркелген'); return; }
+
+    users.push({name, email, pass});
+    writeJSON(LS_USERS, users);
+    localStorage.setItem(LS_CURRENT, email);
+    authModal.style.display='none';
+    refreshUI();
+    alert('Тіркелу сәтті аяқталды!');
+  });
+
+  // --- Login ---
+  btnLogin.addEventListener('click', ()=>{
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    const pass = document.getElementById('login-pass').value;
+    if(!email||!pass){ alert('Барлық өрістерді толтырыңыз'); return; }
+    const users = readJSON(LS_USERS)||[];
+    const u = users.find(u=>u.email===email && u.pass===pass);
+    if(!u){ alert('Қате email немесе пароль'); return; }
+    localStorage.setItem(LS_CURRENT, email);
+    authModal.style.display='none';
+    refreshUI();
+    alert('Қош келдіңіз, '+u.name+'!');
+  });
+
+  // --- Logout ---
+  btnLogout.addEventListener('click', ()=>{
+    localStorage.removeItem(LS_CURRENT);
+    refreshUI();
+  });
+
+  // --- Booking logic ---
+  function renderBookings(){
+    const current = localStorage.getItem(LS_CURRENT);
+    const all = readJSON(LS_BOOKINGS)||[];
+    const userBookings = current ? all.filter(b=>b.user===current) : [];
+    bookingsList.innerHTML = '';
+    bookingCount.textContent = userBookings.length + ' брондау';
+    if(userBookings.length===0){
+      bookingsList.innerHTML = '<div class="empty">Брондауларың әлі жоқ.</div>';
+      return;
+    }
+    userBookings.forEach((b, idx)=>{
+      const div = document.createElement('div');
+      div.className='booking';
+      div.innerHTML = `
+        <div style="width:74px;height:62px;border-radius:8px;background:linear-gradient(135deg,#eafaf0,#ffffff);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--green-2)">${b.hotel.split(' ')[0]}</div>
+        <div class="meta">
+          <h4>${b.hotel}</h4>
+          <div class="muted">${b.from} → ${b.to} • ${b.guests} қонақ(тар)</div>
+          <div class="muted" style="margin-top:6px;font-size:12px">Брондау: ${new Date(b.created).toLocaleString()}</div>
+        </div>
+        <div>
+          <button class="btn btn-ghost btn-cancel" data-id="${b.id}">Болдырмау</button>
+        </div>
+      `;
+      bookingsList.appendChild(div);
+    });
+    // attach cancel handlers
+    document.querySelectorAll('.btn-cancel').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = e.target.getAttribute('data-id');
+        if(!confirm('Бұл брондауды болдырмайсыз ба?')) return;
+        let allB = readJSON(LS_BOOKINGS)||[];
+        allB = allB.filter(x=>x.id !== id);
+        writeJSON(LS_BOOKINGS, allB);
+        renderBookings();
+      });
+    });
+  }
+
+  // Create booking
+  btnBook.addEventListener('click', ()=>{
+    const current = localStorage.getItem(LS_CURRENT);
+    if(!current){ alert('Алдымен кіру керек'); return; }
+    const hotel = document.getElementById('hotel-select').value;
+    const from = document.getElementById('date-from').value;
+    const to = document.getElementById('date-to').value;
+    const guests = document.getElementById('guests').value.trim() || '1';
+    if(!from||!to){ alert('Келу және шығу күнін енгізіңіз'); return; }
+    if(new Date(from) > new Date(to)){ alert('Шығу күні келуден ерте болмауы керек'); return; }
+
+    const all = readJSON(LS_BOOKINGS)||[];
+    const item = { id: 'b_'+Date.now(), user: current, hotel, from, to, guests, created: Date.now() };
+    all.push(item);
+    writeJSON(LS_BOOKINGS, all);
+    alert('Брондау сәтті жасалды!');
+    renderBookings();
+  });
+
+  btnReset.addEventListener('click', ()=>{
+    document.getElementById('date-from').value='';
+    document.getElementById('date-to').value='';
+    document.getElementById('guests').value='';
+  });
+
+  // Profile edit
+  btnEditProfile.addEventListener('click', ()=>{
+    panelProfile.style.display='block';
+    btnEditProfile.disabled = true;
+    btnManageBookings.disabled = true;
+    const cur = localStorage.getItem(LS_CURRENT);
+    if(cur){
+      const users = readJSON(LS_USERS)||[];
+      const u = users.find(x=>x.email===cur);
+      if(u){
+        document.getElementById('edit-name').value = u.name;
+        document.getElementById('edit-email').value = u.email;
+      }
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  btnCancelEdit.addEventListener('click', ()=>{
+    panelProfile.style.display='none';
+    btnEditProfile.disabled = false;
+    btnManageBookings.disabled = false;
+  });
+
+  btnSaveProfile.addEventListener('click', ()=>{
+    const nm = document.getElementById('edit-name').value.trim();
+    const em = document.getElementById('edit-email').value.trim().toLowerCase();
+    if(!nm||!em){ alert('Барлық өрістерді толтырыңыз'); return; }
+    const cur = localStorage.getItem(LS_CURRENT);
+    const users = readJSON(LS_USERS)||[];
+    const uidx = users.findIndex(x=>x.email===cur);
+    if(uidx===-1){ alert('Пайдаланушы табылмады'); return; }
+    // prevent duplicate email
+    if(em !== cur && users.find(x=>x.email===em)){ alert('Бұл email басқа қолданушыда тіркелген'); return; }
+    users[uidx].name = nm; users[uidx].email = em;
+    writeJSON(LS_USERS, users);
+    // update current pointer if changed
+    localStorage.setItem(LS_CURRENT, em);
+    panelProfile.style.display='none';
+    btnEditProfile.disabled = false;
+    refreshUI();
+    alert('Профиль сақталды');
+  });
+
+  // Manage bookings shortcut
+  btnManageBookings.addEventListener('click', ()=>{
+    window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+  });
+
+  // Clear storage (dangerous)
+  btnClear.addEventListener('click', ()=>{
+    if(!confirm('Барлық жергілікті деректер жойылады. Жалғастау керек пе?')) return;
+    localStorage.removeItem(LS_USERS);
+    localStorage.removeItem(LS_BOOKINGS);
+    localStorage.removeItem(LS_CURRENT);
+    location.reload();
+  });
+
+  // UI refresh based on auth
+  function refreshUI(){
+    const cur = localStorage.getItem(LS_CURRENT);
+    if(!cur){
+      // logged out
+      userNameEl.textContent = 'Қонақ';
+      userEmailEl.textContent = 'Тіркелмеген';
+      avatarEl.textContent = 'Ә';
+      btnOpenAuth.style.display = 'inline-block';
+      btnLogout.style.display = 'none';
+      btnEditProfile.disabled = true;
+      btnManageBookings.disabled = true;
+      authWarning.style.display = 'block';
+      bookingFormEl.style.display = 'none';
+      panelProfile.style.display = 'none';
+    } else {
+      // logged in
+      const users = readJSON(LS_USERS)||[];
+      const u = users.find(x=>x.email===cur);
+      userNameEl.textContent = u ? u.name : cur;
+      userEmailEl.textContent = u ? u.email : cur;
+      avatarEl.textContent = (u && u.name ? u.name.charAt(0).toUpperCase() : 'U');
+      btnOpenAuth.style.display = 'none';
+      btnLogout.style.display = 'inline-block';
+      btnEditProfile.disabled = false;
+      btnManageBookings.disabled = false;
+      authWarning.style.display = 'none';
+      bookingFormEl.style.display = 'block';
+    }
+    renderBookings();
+  }
+
+  // initial render
+  refreshUI();
+</script>
+
+</body>
+</html>
